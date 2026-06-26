@@ -153,6 +153,18 @@ static std::string getOSName_WMI()
 
 	// Obtain the initial locator
 	IWbemLocator *pLoc = NULL;
+  IClientSecurity* pSecurity = NULL;
+  IWbemClassObject *pClsObj = NULL;
+  ULONG uReturn = 0;
+  DWORD authnSvc = 0;
+  DWORD authzSvc = 0;
+  LPOLESTR serverPrincName = NULL;
+  DWORD authnLevel = 0;
+  DWORD impLevel = 0;
+  RPC_AUTH_IDENTITY_HANDLE authInfo = NULL;
+  DWORD ifCapabilites = 0;
+  IEnumWbemClassObject* pEnumerator = NULL;
+  IWbemServices *pSvc = NULL;
 	hres = CoCreateInstance(
 			CLSID_WbemLocator,
 			0,
@@ -164,8 +176,7 @@ static std::string getOSName_WMI()
 
 	// Connect to the root\cimv2 namespace with
 	// the current user and obtain pointer pSvc
-	// to make IWbemServices calls.
-	IWbemServices *pSvc = NULL;
+  // to make IWbemServices calls.
 	hres = pLoc->ConnectServer(
 			_bstr_t(L"ROOT\\CIMV2"), // Object path of WMI namespace
 			NULL,                    // User name. NULL = current user
@@ -180,20 +191,12 @@ static std::string getOSName_WMI()
 		goto cleanup;
 	}
 
-	IClientSecurity* pSecurity = NULL;
 	hres = pSvc->QueryInterface(IID_IClientSecurity, (LPVOID*)&pSecurity);
 	if (FAILED(hres) || !pSecurity) {
 		goto cleanup;
 	}
 
-	// Querying the current authentication information
-	DWORD authnSvc = 0;
-	DWORD authzSvc = 0;
-	LPOLESTR serverPrincName = NULL;
-	DWORD authnLevel = 0;
-	DWORD impLevel = 0;
-	RPC_AUTH_IDENTITY_HANDLE authInfo = NULL;
-	DWORD ifCapabilites = 0;
+  // Querying the current authentication information
 
 	hres = pSecurity->QueryBlanket(pSvc,
 								&authnSvc,
@@ -221,8 +224,7 @@ static std::string getOSName_WMI()
 		goto cleanup;
 	}
 
-	//Execute Query agianst WMI Object: Win32_OperatingSystem
-	IEnumWbemClassObject* pEnumerator = NULL;
+  //Execute Query agianst WMI Object: Win32_OperatingSystem
 	hres = pSvc->ExecQuery(
 		bstr_t("WQL"),
 		bstr_t("SELECT Caption FROM Win32_OperatingSystem"),
@@ -233,9 +235,7 @@ static std::string getOSName_WMI()
 		goto cleanup;
 	}
 
-	// Get the data from the query -------------------
-	IWbemClassObject *pClsObj = NULL;
-	ULONG uReturn = 0;
+  // Get the data from the query -------------------
 	hres = pEnumerator->Next(WBEM_INFINITE, 1, &pClsObj, &uReturn);
 	if(FAILED(hres) || 0 == uReturn) {
 		goto cleanup;

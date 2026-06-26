@@ -36,7 +36,7 @@
 	#define AJA_PAGE_SIZE (4096)
 
 	#define AJA_MAX_PATH (256)
-
+#if !defined(__GNUC__)
 	typedef signed __int8	 int8_t;
 	typedef signed __int16	 int16_t;
 	typedef signed __int32	 int32_t;
@@ -44,17 +44,17 @@
 	typedef unsigned __int8	 uint8_t;
 	typedef unsigned __int16 uint16_t;
 	typedef unsigned __int32 uint32_t;
-	typedef unsigned __int64 uint64_t;
-
+  typedef unsigned __int64 uint64_t;
 	#if defined(_WIN64)
 		typedef signed __int64	  intptr_t;
-		typedef unsigned __int64  uintptr_t;
-		#define AJA_OS_64
+    typedef unsigned __int64  uintptr_t;
 	#else
 		typedef signed __int32	  intptr_t;
 		typedef unsigned __int32  uintptr_t;
 		#define AJA_OS_32
 	#endif
+#endif
+#define AJA_OS_64
 	#define AJA_LITTLE_ENDIAN
 
 	// This adds the ability to format 64-bit entities

@@ -106,8 +106,8 @@ static bool access(char* t, int x) {return true;}
 
 /* Copy SRC to DEST, returning the address of the terminating '\0' in DEST.	 */
 inline char * stpcpy (char *dest, const char * src) {
-	register char *d = dest;
-	register const char *s = src;
+   char *d = dest;
+   const char *s = src;
 
 	do
 	*d++ = *s;
@@ -3001,7 +3001,7 @@ int poptSaveLongLong(long long * arg, unsigned int argInfo, long long aLongLong)
 int poptSaveLong(long * arg, unsigned int argInfo, long aLong)
 {
 	/* XXX Check alignment, may fail on funky platforms. */
-	if (arg == NULL || (((unsigned long)arg) & (sizeof(*arg)-1)))
+  if (arg == NULL || (((uintptr_t)arg) & (sizeof(*arg)-1)))
 	return POPT_ERROR_NULLARG;
 
 	if (aLong != 0 && LF_ISSET(RANDOM)) {
@@ -3025,7 +3025,7 @@ int poptSaveLong(long * arg, unsigned int argInfo, long aLong)
 int poptSaveInt(int * arg, unsigned int argInfo, long aLong)
 {
 	/* XXX Check alignment, may fail on funky platforms. */
-	if (arg == NULL || (((unsigned long)arg) & (sizeof(*arg)-1)))
+  if (arg == NULL || ((uintptr_t)arg) & (sizeof(*arg)-1))
 	return POPT_ERROR_NULLARG;
 
 	if (aLong != 0 && LF_ISSET(RANDOM)) {
@@ -3049,7 +3049,7 @@ int poptSaveInt(int * arg, unsigned int argInfo, long aLong)
 int poptSaveShort(short * arg, unsigned int argInfo, long aLong)
 {
 	/* XXX Check alignment, may fail on funky platforms. */
-	if (arg == NULL || (((unsigned long)arg) & (sizeof(*arg)-1)))
+  if (arg == NULL || (((uintptr_t)arg) & (sizeof(*arg)-1)))
 	return POPT_ERROR_NULLARG;
 
 	if (aLong != 0 && LF_ISSET(RANDOM)) {

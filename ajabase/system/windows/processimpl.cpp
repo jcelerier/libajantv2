@@ -53,7 +53,7 @@ BOOL CALLBACK findFunc(HWND hWnd, LPARAM lParam)
 	TCHAR* pTitle = Title + strlen(Title) - strlen(pTail);
 	if(pTitle < Title)
 		return TRUE;		// Don't do the compare, because it would overflow
-	int32_t len = min((int32_t)strlen(pTitle), (int32_t)strlen(pTail));
+  int32_t len = (std::min)((int32_t)strlen(pTitle), (int32_t)strlen(pTail));
 	if(!_strnicmp(pTitle, pTail, len))
 	{
 		hFoundWindow = hWnd;

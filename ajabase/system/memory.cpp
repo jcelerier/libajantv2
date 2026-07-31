@@ -392,9 +392,9 @@ AJAMemory::FreeShared(void* pMemory)
 				//	The call to "shm_unlink" is disabled on purpose, because active clients using this
 				//	shared memory might still be using it. Therefore, some other entity will have to
 				//	remove the backing file from /dev/shm after all other shared clients have terminated.
-				sSharedList.erase(shareIter);
 #endif	//	else Linux & Mac
-			}
+                sSharedList.erase(shareIter);
+            }
 			return true;
 		}
 	}

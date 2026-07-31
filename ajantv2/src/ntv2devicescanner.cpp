@@ -908,7 +908,7 @@ bool CNTV2DeviceScanner::GetVDevList (NTV2DeviceInfoList & outVDevList)
 		NTV2DeviceInfo newInfo;
 		newInfo.isVirtualDevice		= true;
 		newInfo.deviceIndex			= vdIndex;
-		newInfo.deviceID			= DEVICE_ID_SOFTWARE;
+        newInfo.deviceID			= DEVICE_ID_VKONA;
 		newInfo.deviceIdentifier	= "";
 		newInfo.vdevName			= "";
 		bool explicitlyDisabled(false);

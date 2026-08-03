@@ -102,12 +102,12 @@ function(aja_deploy_qt_libs target)
         endif()
     elseif (UNIX AND NOT APPLE)
         message(STATUS "ajalinuxdeployqt: ${target}")
-        if (NOT DEFINED AJAPY_DIR)
-            message(WARNING "AJAPY_DIR not found. Not deploying qtlibs")
+        if (NOT DEFINED AJAPYTHON_DIR)
+            message(WARNING "AJAPYTHON_DIR not found. Not deploying qtlibs")
             return()
         endif()
 
-        get_filename_component(_lin_deploy_qt_path "${AJAPY_DIR}/aja/scripts/cli/linuxdeployqt.py" REALPATH)
+        get_filename_component(_lin_deploy_qt_path "${AJAPYTHON_DIR}/aja/scripts/cli/linuxdeployqt.py" REALPATH)
         if (EXISTS ${_lin_deploy_qt_path})
             add_custom_command(TARGET ${target} POST_BUILD
                 COMMAND ${Python3_EXECUTABLE}
@@ -184,7 +184,7 @@ function(aja_deploy_qt_libs_to_dest target dest)
         endif()
     elseif (UNIX AND NOT APPLE)
         message(STATUS "ajalinuxdeployqt: ${target}")
-        get_filename_component(_lin_deploy_qt_path "${AJAPY_DIR}/aja/scripts/cli/linuxdeployqt.py" REALPATH)
+        get_filename_component(_lin_deploy_qt_path "${AJAPYTHON_DIR}/aja/scripts/cli/linuxdeployqt.py" REALPATH)
         if (EXISTS ${_lin_deploy_qt_path})
             add_custom_command(TARGET ${target} POST_BUILD
                 COMMAND ${Python3_EXECUTABLE}

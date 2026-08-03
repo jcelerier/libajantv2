@@ -244,16 +244,16 @@ function(aja_code_sign targets)
 		return()
 	endif()
 
-	set(sign_script_path ${AJAPY_DIR}/aja/scripts/cli/evsign.py)
+	set(sign_script_path ${AJAPYTHON_DIR}/aja/scripts/cli/evsign.py)
 	foreach(target IN LISTS targets)
 		if (EXISTS "${sign_script_path}")
-			set(ajapy_path ${AJAPY_DIR}/aja)
-			get_filename_component(ajapy_path "${ajapy_path}" REALPATH)
+			set(ajapython_path ${AJAPYTHON_DIR}/aja)
+			get_filename_component(ajapython_path "${ajapython_path}" REALPATH)
 			get_filename_component(sign_script_path "${sign_script_path}" REALPATH)
 			message(STATUS "Code Sign: ${target}")
 			add_custom_command(TARGET ${target} POST_BUILD
 				COMMAND
-					${CMAKE_COMMAND} -E env "PYTHONPATH=\"${ajapy_path}\""
+					${CMAKE_COMMAND} -E env "PYTHONPATH=\"${ajapython_path}\""
 					${Python3_EXECUTABLE}
 					${sign_script_path}
 					--path=$<TARGET_FILE:${target}>

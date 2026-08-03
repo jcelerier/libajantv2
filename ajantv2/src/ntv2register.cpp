@@ -3395,7 +3395,18 @@ NTV2VideoFormat CNTV2Card::GetSDIInputVideoFormat (NTV2Channel inChannel, bool i
 	bool isProgressivePic (isValidVPID ? inputVPID.GetProgressivePicture() : inIsProgressivePicture);
 	bool isInput3G (false);
 	
-	if(inputRate == NTV2_FRAMERATE_INVALID)
+	//	A valid VPID fully describes the format on its own -- prefer it, and return
+	//	before the relatively expensive widget-capability lookup below. Some devices
+	//	(e.g. Corvid 88) publish VPID but leave the legacy per-input rate and geometry
+	//	fields of kRegInputStatus/kRegInputStatus2/kRegInput56Status/kRegInput78Status
+	//	at zero, so gating on the frame rate alone would discard a perfectly good VPID.
+	if (isValidVPID)
+	{
+		const NTV2VideoFormat vpidFormat (inputVPID.GetVideoFormat());
+		if (vpidFormat != NTV2_FORMAT_UNKNOWN)
+			return vpidFormat;
+	}
+	if (inputRate == NTV2_FRAMERATE_INVALID)
 		return NTV2_FORMAT_UNKNOWN;
 
 	const ULWordSet wgtIDs (GetSupportedItems(kNTV2EnumsID_WidgetID));

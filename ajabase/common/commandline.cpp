@@ -387,6 +387,16 @@ bool AJACommandLineParser::Parse(const AJAStringList &args)
                         }
                         continue;
                     } else {
+                        // Walk candidates longest-first to find the longest registered
+                        // option name that prefixes this arg; whatever follows it is the
+                        // value, so "-b1" yields name "b" and value "1".
+                        //
+                        // Do NOT report an unknown arg from inside this loop. The first
+                        // and longest candidate is the whole token ("b1"), which is
+                        // almost never a registered name, so doing so rejected every
+                        // valid "-<opt><value>" arg whenever kErrorOnUnknownArgs was set.
+                        // The HaveOption check after this block already reports genuine
+                        // unknowns, for both single- and double-dash forms.
                         for (size_t c = arg.length(); c > 1; c--) {
                             subStr = arg.substr(1, c-1);
                             if (HaveOption(subStr)) {
@@ -394,10 +404,12 @@ bool AJACommandLineParser::Parse(const AJAStringList &args)
                                 size_t count = (arg.length()-1)-optName.length();
                                 optValue = arg.substr(optName.length()+1, count);
                                 break;
-                            } else if (_flags & kErrorOnUnknownArgs) {
-                                std::cerr << "Unknown arg: " << subStr << std::endl;
-                                return false;
                             }
+                        }
+                        if (optName.empty()) {
+                            // Nothing matched. Carry the whole token so the unknown-arg
+                            // message below names what the user actually typed.
+                            optName = argStr;
                         }
                     }
                 } else { /* --argname */

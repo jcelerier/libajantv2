@@ -786,14 +786,22 @@ if (NOT TARGET ${PROJECT_NAME})
     set(_compiler_is_gnu_or_clang $<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>)
     set(_compile_options_win_debug /Od /RTC1 /W3)
     set(_compile_options_mac_lin_debug -O0 -Wall)
+    # RelWithDebInfo is an optimized configuration. Only add warning levels here and let
+    # CMAKE_<LANG>_FLAGS_RELWITHDEBINFO supply the optimization level.
+    set(_compile_options_win_relwithdebinfo /W3)
+    set(_compile_options_mac_lin_relwithdebinfo -Wall -Wextra)
+
     target_compile_options(${PROJECT_NAME} PUBLIC
         $<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<PLATFORM_ID:Windows>,${_compiler_id_c_or_cxx_msvc}>:/MP /Zm200>
-        $<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<PLATFORM_ID:Windows>,${_compiler_id_c_or_cxx_msvc},$<CONFIG:Release>>:/O2 /W3>
-        $<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<PLATFORM_ID:Windows>,${_compiler_id_c_or_cxx_msvc},$<CONFIG:RelWithDebInfo>>:${_compile_options_win_debug}>
-        $<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<PLATFORM_ID:Windows>,${_compiler_id_c_or_cxx_msvc},$<CONFIG:Debug>>:${_compile_options_win_debug}>
         $<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<PLATFORM_ID:Darwin,Linux>,${_compiler_is_gnu_or_clang}>:-fPIC>
+    )
+
+    target_compile_options(${PROJECT_NAME} PRIVATE
+        $<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<PLATFORM_ID:Windows>,${_compiler_id_c_or_cxx_msvc},$<CONFIG:Release>>:/O2 /W3>
+        $<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<PLATFORM_ID:Windows>,${_compiler_id_c_or_cxx_msvc},$<CONFIG:RelWithDebInfo>>:${_compile_options_win_relwithdebinfo}>
+        $<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<PLATFORM_ID:Windows>,${_compiler_id_c_or_cxx_msvc},$<CONFIG:Debug>>:${_compile_options_win_debug}>
         $<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<PLATFORM_ID:Darwin,Linux>,${_compiler_is_gnu_or_clang},$<CONFIG:Release>>:-O2 -Wall -Wextra>
-        $<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<PLATFORM_ID:Darwin,Linux>,${_compiler_is_gnu_or_clang},$<CONFIG:RelWithDebInfo>>:${_compile_options_mac_lin_debug}>
+        $<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<PLATFORM_ID:Darwin,Linux>,${_compiler_is_gnu_or_clang},$<CONFIG:RelWithDebInfo>>:${_compile_options_mac_lin_relwithdebinfo}>
         $<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<PLATFORM_ID:Darwin,Linux>,${_compiler_is_gnu_or_clang},$<CONFIG:Debug>>:${_compile_options_mac_lin_debug}>
     )
 

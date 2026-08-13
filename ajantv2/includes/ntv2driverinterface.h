@@ -618,6 +618,64 @@ class AJAExport CNTV2DriverInterface
 		///@}
 #endif	//	NTV2_WRITEREG_PROFILING		//	Register Write Profiling
 
+		/**
+			@name	Device Features
+		**/
+		///@{
+		/**
+			@brief		Answers with the boolean value of the given parameter of interest.
+			@param[in]	inParamID		Specifies the device features parameter of interest.
+			@param[out] outValue		Receives the requested boolean value ('true' == 1, 'false' == 0).
+			@return		True if successful; otherwise false.
+		**/
+		AJA_VIRTUAL bool	GetBoolParam (const ULWord inParamID,  ULWord & outValue);	//	New in SDK 17.0
+
+		/**
+			@brief		Answers with the numeric value of the given parameter of interest.
+			@param[in]	inParamID		Specifies the device features parameter of interest.
+			@param[out] outValue		Receives the requested numeric value.
+			@return		True if successful; otherwise false.
+		**/
+		AJA_VIRTUAL bool	GetNumericParam (const ULWord inParamID,  ULWord & outValue);	//	New in SDK 17.0
+
+		/**
+			@brief		(Internal SDK use only) Answers with the boolean value returned from the appropriate "ntv2devicefeatures.hpp" function using my NTV2DeviceID.
+		**/
+		AJA_VIRTUAL bool	GetBoolParamWithDeviceID (const ULWord inParamID,  ULWord & outValue);	//	New in SDK 18.1
+
+		/**
+			@brief		(Internal SDK use only) Answers with the numeric value returned from the appropriate "ntv2devicefeatures.hpp" function using my NTV2DeviceID.
+		**/
+		AJA_VIRTUAL bool	GetNumericParamWithDeviceID (const ULWord inParamID,  ULWord & outValue);	//	New in SDK 18.1
+
+		/**
+			@brief		(Internal SDK use only) Answers whether or not the given parameter's value is determined by a device register.
+		**/
+		AJA_VIRTUAL bool	HasRegInfoForBoolParam (const ULWord inParamID)		{NTV2RegInfo i; bool flip; return GetRegInfoForBoolParam(NTV2BoolParamID(inParamID),i,flip);}	//	New in SDK 18.1
+
+		/**
+			@brief		(Internal SDK use only) Answers whether or not the given parameter's value is determined by a device register.
+		**/
+		AJA_VIRTUAL bool	HasRegInfoForNumericParam (const ULWord inParamID)	{NTV2RegInfo i; return GetRegInfoForNumericParam(NTV2NumericParamID(inParamID),i);}	//	New in SDK 18.1
+
+		/**
+			@brief		(Internal SDK use only) Answers with the NTV2RegInfo for the given parameter.
+			@param[in]	inParamID		Specifies the device features parameter of interest.
+			@param[out] outRegInfo		Receives the associated NTV2RegInfo.
+			@param[out] outFlipSense	Receives true only if the sense of the resulting boolean read from ReadRegister should be inverted.
+			@return		True if successful (and the returned NTV2RegInfo is valid); otherwise false.
+		**/
+		AJA_VIRTUAL bool	GetRegInfoForBoolParam (const NTV2BoolParamID inParamID, NTV2RegInfo & outRegInfo, bool & outFlipSense);
+
+		/**
+			@brief		(Internal SDK use only) Answers with the NTV2RegInfo for the given parameter.
+			@param[in]	inParamID		Specifies the device features parameter of interest.
+			@param[out] outRegInfo		Receives the associated NTV2RegInfo.
+			@return		True if successful (and the returned NTV2RegInfo is valid); otherwise false.
+		**/
+		AJA_VIRTUAL bool	GetRegInfoForNumericParam (const NTV2NumericParamID inParamID, NTV2RegInfo & outRegInfo);
+		///@}
+
 
 	//	PROTECTED METHODS
 	protected:
@@ -630,24 +688,6 @@ class AJAExport CNTV2DriverInterface
 		AJA_VIRTUAL bool	CloseRemote (void);	///< @brief	Releases host resources associated with the remote/special device connection.
 		AJA_VIRTUAL bool	OpenLocalPhysical (const UWord inDeviceIndex);	///< @brief	Opens the local/physical device connection.
 		AJA_VIRTUAL bool	CloseLocalPhysical (void);	///< @brief	Releases host resources associated with the local/physical device connection.
-		AJA_VIRTUAL bool	GetBoolParam (const ULWord inParamID,  ULWord & outValue);	//	New in SDK 17.0
-		AJA_VIRTUAL bool	GetNumericParam (const ULWord inParamID,  ULWord & outValue);	//	New in SDK 17.0
-
-		/**
-			@brief		Answers with the NTV2RegInfo of the register associated with the given boolean (i.e., "Can Do") device feature.
-			@param[in]	inParamID		Specifies the device features parameter of interest.
-			@param[out] outRegInfo		Receives the associated NTV2RegInfo.
-			@param[out] outFlipSense	Receives true only if the sense of the resulting boolean read from ReadRegister should be inverted.
-			@return		True if successful; otherwise false.
-		**/
-		AJA_VIRTUAL bool	GetRegInfoForBoolParam (const NTV2BoolParamID inParamID, NTV2RegInfo & outRegInfo, bool & outFlipSense);
-		/**
-			@brief		Answers with the NTV2RegInfo of the register associated with the given numeric (i.e., "Get Num") device feature.
-			@param[in]	inParamID		Specifies the device features parameter of interest.
-			@param[out] outRegInfo		Receives the associated NTV2RegInfo.
-			@return		True if successful; otherwise false.
-		**/
-		AJA_VIRTUAL bool	GetRegInfoForNumericParam (const NTV2NumericParamID inParamID, NTV2RegInfo & outRegInfo);
 
 		/**
 			@brief		Atomically increments the event count tally for the given interrupt type.

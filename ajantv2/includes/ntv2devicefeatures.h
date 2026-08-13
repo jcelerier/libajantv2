@@ -60,7 +60,7 @@ typedef enum _NTV2BoolParamID
 	kDeviceCanDoDVCProHD,						///< @brief True if device can squeeze/stretch between 1920x1080/1280x1080 and 1280x720/960x720.
 	kDeviceCanDoEnhancedCSC,					///< @brief True if device has enhanced CSCs.
 	kDeviceCanDoFrameStore1Display,				///< @brief True if device can display/output video from FrameStore 1.
-	kDeviceCanDoFreezeOutput,					///< @brief True if device can freeze output video.
+	kDeviceCanDoFreezeOutput,					///< @deprecated in SDK 14.3
 	kDeviceCanDoHDMIOutStereo,					///< @brief True if device supports 3D/stereo HDMI video output.
 	kDeviceCanDoHDV,							///< @brief True if device can squeeze/stretch between 1920x1080 and 1440x1080.
 	kDeviceCanDoHDVideo,						///< @brief True if device can handle HD (High Definition) video.

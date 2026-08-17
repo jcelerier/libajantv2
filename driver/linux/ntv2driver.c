@@ -3334,7 +3334,7 @@ static int __init aja_ntv2_module_init(void)
 #endif    
 
     // determine driver mode
-    strncpy(versionString, DriverMode, STRMAX);
+    strscpy(versionString, DriverMode, STRMAX);
     versionString[STRMAX - 1] = '\0';
     driverModeString = strstrip(versionString);
     if (strcmp(driverModeString, "all") == 0)

@@ -24,6 +24,8 @@ This is the open-source SDK for discovering, interrogating and controlling NTV2 
    - [Deprecation History](#deprecationhistory)
 1. [SDK & Driver Compatibility](#drivercompat)
 1. [Firmware and Device Features](#fwdevicefeatures)
+   - [Flashing Firmware with ntv2firmwareinstaller](#flashing-firmware-with-ntv2firmwareinstaller)
+   - [Switching Bitfiles with ntv2switchbitfile](#switching-bitfiles-with-ntv2switchbitfile)
 1. [‘libajantv2’ Dynamic (Shared) Libary](#dynamiclib)
 
 ## Directory Layout
@@ -870,6 +872,14 @@ AJA always recommends that NTV2-based applications be built from the same SDK ve
 ## Firmware and Device Features <a name="fwdevicefeatures"></a>
 
 For a given SDK release, the **CanDo**_XXXX_, **GetNum**_XXXX_, etc. Device Features API responses should be correct for all supported devices running the latest firmware available on or after the SDK release date. AJA will do its best to document any exceptions on the SDK’s download page and/or the device firmware page in the Knowledgebase.
+
+### Flashing Firmware with ntv2firmwareinstaller
+
+NTV2 boards are flashed with a full bitfile using the **ntv2firmwareinstaller** command-line utility, found in the `tools/ntv2firmwareinstaller` directory. Firmware for all boards is available from the [ntv2-firmware](https://github.com/aja-video/ntv2-firmware) repository. After a successful flash, the machine must be power-cycled for the new firmware to take effect.
+
+### Switching Bitfiles with ntv2switchbitfile
+
+Boards that support Xilinx “Partial Reconfig” — currently the KONA 5 and Corvid44-12G — can dynamically switch between firmware “personalities” at runtime, without re-flashing the board or power-cycling the machine, using the **ntv2switchbitfile** utility found in the `demos/ntv2switchbitfile` directory. See the [ntv2switchbitfile README](demos/ntv2switchbitfile/README.md) for an overview and step-by-step instructions.
 
 # libajantv2 Dynamic (Shared) Libary <a name="dynamiclib"></a>
 

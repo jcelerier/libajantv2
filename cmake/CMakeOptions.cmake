@@ -50,12 +50,22 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
             set(CMAKE_OSX_DEPLOYMENT_TARGET "11.0" CACHE STRING "Minimum macOS deployment version" FORCE)
         endif()
     endif()
-    # Get the macOS SDK version
-    get_filename_component(MACOS_SDK_NAME ${CMAKE_OSX_SYSROOT} NAME_WLE)
-    string(REPLACE "MacOSX" "" MACOS_SDK_VERSION ${MACOS_SDK_NAME})
-    string(REPLACE "." ";" MACOS_SDK_VERSION_LIST ${MACOS_SDK_VERSION})
-    list(GET MACOS_SDK_VERSION_LIST 0 MACOS_SDK_VERSION_MAJOR)
-    list(GET MACOS_SDK_VERSION_LIST 1 MACOS_SDK_VERSION_MINOR)
+    # Get the macOS SDK version, where the sysroot names one. Current Xcode
+    # ships an unversioned .../SDKs/MacOSX.sdk, and a sysroot may not be set at
+    # all in a build that never asked for one; both used to abort the configure
+    # here -- get_filename_component with two arguments, or REPLACE with three.
+    # The version is reported below and otherwise unused, so it is optional.
+    set(MACOS_SDK_NAME "")
+    set(MACOS_SDK_VERSION "")
+    if (CMAKE_OSX_SYSROOT)
+        get_filename_component(MACOS_SDK_NAME "${CMAKE_OSX_SYSROOT}" NAME_WLE)
+        string(REPLACE "MacOSX" "" MACOS_SDK_VERSION "${MACOS_SDK_NAME}")
+    endif()
+    if (MACOS_SDK_VERSION MATCHES "^[0-9]+\\.[0-9]+")
+        string(REPLACE "." ";" MACOS_SDK_VERSION_LIST "${MACOS_SDK_VERSION}")
+        list(GET MACOS_SDK_VERSION_LIST 0 MACOS_SDK_VERSION_MAJOR)
+        list(GET MACOS_SDK_VERSION_LIST 1 MACOS_SDK_VERSION_MINOR)
+    endif()
     message(STATUS "CMAKE_OSX_SYSROOT: ${CMAKE_OSX_SYSROOT}")
     message(STATUS "MACOS_SDK_NAME: ${MACOS_SDK_NAME}")
     message(STATUS "MACOS_SDK_VERSION: ${MACOS_SDK_VERSION}")

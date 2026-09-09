@@ -35,7 +35,12 @@ typedef union
 } FloatSwap;
 
 
-inline float htonf(float f)
+// Not htonf/ntohf: Windows declares `u_long htonf(float)` in WinSock2.h, and
+// two functions differing only in return type cannot coexist -- a clang-cl
+// build stops here with "functions that differ only in their return type
+// cannot be overloaded". These are file-local helpers reached only through
+// SWAPR32/UNSWAPR32 in dpx_hdr.h, so the names are ours to choose.
+inline float aja_htonf(float f)
 {
 	FloatSwap s;
 	s.f = f;
@@ -44,7 +49,7 @@ inline float htonf(float f)
 }
 
 
-inline float ntohf(float f)
+inline float aja_ntohf(float f)
 {
 	FloatSwap s;
 

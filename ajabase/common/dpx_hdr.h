@@ -22,10 +22,10 @@
 
 #define SWAP16(e,v) ((e) ? htons(v) : (v))
 #define SWAP32(e,v) ((e) ? htonl(v) : (v))
-#define SWAPR32(e,v) ((e) ? htonf(v) : (v))
+#define SWAPR32(e,v) ((e) ? aja_htonf(v) : (v))
 #define UNSWAP16(e,v) ((e) ? ntohs(v) : (v))
 #define UNSWAP32(e,v) ((e) ? ntohl(v) : (v))
-#define UNSWAPR32(e,v) ((e) ? ntohf(v) : (v))
+#define UNSWAPR32(e,v) ((e) ? aja_ntohf(v) : (v))
 
 #define DPX_VALID(p) \
 	((p) && (((p)->file_info.magic_num==DPX_C_MAGIC) || \

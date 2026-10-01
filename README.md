@@ -398,7 +398,7 @@ This means that if the `NTV2_DEPRECATE` macro is undefined, then existing code t
 
 ### Deprecation History <a name="deprecationhistory"></a>
 
-<details><summary>Click to expand</summary>
+<details><summary>v14 & earlier SDKs</summary>
 
 - **SDK 11.3:** `NTV2_DEPRECATE` macro introduced (but not defined anywhere).
 - **SDKs 11.3 - 12.3:** Shipped libraries built with old APIs intact (i.e. `NTV2_DEPRECATE` undefined, by default).
@@ -442,6 +442,10 @@ This means that if the `NTV2_DEPRECATE` macro is undefined, then existing code t
   - The “un-numbered” **NTV2_XptHDMIIn**… output crosspoint IDs that were replaced by “numbered” ones (e.g. **NTV2_XptHDMIIn1**).
   - The **AJATestPattern**… data types that were replaced by the **NTV2TestPattern**… ones.
   - The `AJA_TestPattEx_`… enumerations that were replaced by the `NTV2_TestPatt_`… ones.
+</details>
+
+<details><summary>v15 SDKs</summary>
+
 - **SDK 15.0:** `NTV2_DEPRECATE_15_0` macro defined in `ajatypes.h`. Deprecated APIs:
   - The entire **AJATestPatternGen** class that was replaced with **NTV2TestPatternGen**.
   - **CNTV2Card::IsKonaIPDevice** was replaced with **CNTV2Card::IsIPDevice**.
@@ -451,6 +455,7 @@ This means that if the `NTV2_DEPRECATE` macro is undefined, then existing code t
 - **SDK 15.1:** `NTV2_DEPRECATE_15_1` macro defined in `ajatypes.h`. Deprecated APIs:
   - `NTV2SDIInputFormatSelect`, `NTV2PauseModeType` and `NTV2PulldownPatternType` data types were removed.
   - **CNTV2MacDriverInterface::SetOutputTimecodeOffset**, **CNTV2MacDriverInterface::GetOutputTimecodeOffset**, **CNTV2MacDriverInterface::SetOutputTimecodeType** and **CNTV2MacDriverInterface::GetOutputTimecodeType** functions were removed.
+
 - **SDK 15.2:** `NTV2_DEPRECATE_15_2` macro defined in `ajatypes.h`. Deprecated APIs:
   - **AJAAncillaryDataLocation::Set** was removed.
   - **AJAAncillaryDataLocation** instance data members were made private.
@@ -468,6 +473,10 @@ This means that if the `NTV2_DEPRECATE` macro is undefined, then existing code t
   - An overloaded version of **AJAAncillaryList::GetIPTransmitData** was deprecated.
   - An overloaded version of **AJAAncillaryList::GetIPTransmitDataLength** was deprecated.
   - The original Audio Mixer API in **CNTV2Card** was deprecated and replaced with a new, improved API.
+</details>
+
+<details><summary>v16 SDKs</summary>
+
 - **SDK 16.0:** Defined macros `NTV2_DEPRECATE_15_6` and `NTV2_DEPRECATE_16_0` in `ajatypes.h`. As-shipped, all `NTV2_DEPRECATE_` macros preceding SDK 15.0 are defined in SDK 16.0 (making all symbols they deprecate unavailable). Here are the functions that have newly been marked for deprecation in SDK 16.0:
   - In **CNTV2Card**:
     - Deprecated the original SDI Relay APIs: **CNTV2Card::GetSDIRelayPosition12**, **CNTV2Card::GetSDIRelayPosition34**, **CNTV2Card::GetSDIRelayManualControl12**, **CNTV2Card::GetSDIRelayManualControl34**, **CNTV2Card::GetSDIWatchdogEnable12**, **CNTV2Card::GetSDIWatchdogEnable34**, **CNTV2Card::SetSDIRelayManualControl12**, **CNTV2Card::SetSDIRelayManualControl34**, **CNTV2Card::SetSDIWatchdogEnable12**, **CNTV2Card::SetSDIWatchdogEnable34**, **CNTV2Card::GetSDIWatchdogState**, and **CNTV2Card::SetSDIWatchdogState**. These have all been replaced with a new, much cleaner API.
@@ -609,6 +618,10 @@ This means that if the `NTV2_DEPRECATE` macro is undefined, then existing code t
         **NTV2Bitstream**, **NTV2StreamChannel**, **NTV2StreamBuffer**, **NTV2MailBuffer**
       - New **NTV2DeviceGetSupportedInputSources**, **NTV2DeviceGetSupportedOutputDests** functions
       - New utility functions **StringToSerialNum64**, **SerialNum64ToString**
+</details>
+
+<details><summary>v17 SDKs</summary>
+
 - **SDK 17.0:** Defined macro `NTV2_DEPRECATE_17_0` in `ajatypes.h`.
   - Deprecated all basic functionality test (BFT) macros in `ntv2bft`. The `ntv2bft.h` header file will be removed in a future SDK.
   - Deprecated these **CNTV2Card** functions:
@@ -747,6 +760,10 @@ This means that if the `NTV2_DEPRECATE` macro is undefined, then existing code t
     - In `ntv2devicefeatures.h`, new “Get Num” enum: `kDeviceGetGenlockVersion`
     - In `ntv2utils.h`, new **NTV2DieTempScaleToString** utility function.
     - In **CNTV2Card**, new member functions **GetAllWidgetInputs** and **GetAllWidgetOutputs**.
+</details>
+
+<details><summary>v18 SDKs</summary>
+
 - **SDK 18.0:** Defined macro `NTV2_DEPRECATE_18_0` in `ajatypes.h`.
   - Deprecated the **NTV2EveryFrameTaskMode** enum type in favor of its replacement **NTV2TaskMode**.
   - Deprecated the **NTV2InputSourceKind** and **NTV2OutputDestKind** enum types in favor of **NTV2IOKind**.
